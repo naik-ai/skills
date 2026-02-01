@@ -44,6 +44,13 @@ skills/
 
 ## Available Skills
 
+### Core Skills
+
+| Skill | Description | Status |
+|-------|-------------|--------|
+| [interview-to-spec](skills/core/interview-to-spec/) | Transform vague ideas into comprehensive specs through systematic deep questioning | Ready |
+| [code-review](skills/core/code-review/) | Systematic code review with actionable feedback, severity levels, and fix suggestions | Ready |
+
 ### Frontend Skills
 
 | Skill | Description | Status |
@@ -56,28 +63,47 @@ skills/
 | Skill | Description | Status |
 |-------|-------------|--------|
 | [postgres-fastapi](skills/backend/postgres-fastapi/) | PostgreSQL patterns for FastAPI/Alembic with migrations, queries, and Supabase integration | Ready |
+| [api-design](skills/backend/api-design/) | RESTful API design with OpenAPI specs, consistent patterns, and type definitions | Ready |
 
-### Core Skills (Roadmap)
+### DevOps Skills
+
+| Skill | Description | Status |
+|-------|-------------|--------|
+| [github-actions](skills/devops/github-actions/) | CI/CD pipelines with GitHub Actions for testing, building, and deploying applications | Ready |
+
+### Roadmap
 
 | Skill | Description | Priority |
 |-------|-------------|----------|
-| interview-to-spec | Deep user interviews into comprehensive specs | P0 |
-| code-review | Systematic code review with actionable feedback | P0 |
 | documentation | Generate docs from code | P0 |
+| auth-patterns | Authentication/authorization implementations | P1 |
+| docker-compose | Container orchestration patterns | P1 |
 
 ## Usage
 
 Skills are automatically available when placed in `.claude/skills/`. Just describe your task and relevant skills will be used.
 
 ```bash
+# Interview to spec
+"Interview me about my new feature idea"
+
+# Code review
+"Review this pull request for bugs and security issues"
+
 # PWA UI patterns
 "Create a mobile-first dashboard with Apple-style animations"
 
 # React best practices
 "Build a data table with server-side pagination"
 
+# API design
+"Design REST endpoints for a user management system"
+
 # Postgres patterns
 "Design a schema for user subscriptions with proper migrations"
+
+# GitHub Actions
+"Set up CI/CD for my Node.js project"
 ```
 
 ## Skill Architecture
@@ -106,30 +132,30 @@ Skills use three-level loading to manage context:
 
 ## Roadmap
 
-### Phase 1: Foundation (Current)
+### Phase 1: Foundation (Complete)
 
 | Skill | Purpose | Status |
 |-------|---------|--------|
-| pwa-ui | Apple-inspired PWA patterns | Ready |
-| react-best-practices | Vercel React patterns | Ready |
-| postgres-fastapi | FastAPI/Alembic patterns | Ready |
+| pwa-ui | Apple-inspired PWA patterns | ✅ Ready |
+| react-best-practices | Vercel React patterns | ✅ Ready |
+| postgres-fastapi | FastAPI/Alembic patterns | ✅ Ready |
 
-### Phase 2: Development Core
+### Phase 2: Development Core (Complete)
+
+| Skill | Purpose | Status |
+|-------|---------|--------|
+| interview-to-spec | Requirements gathering | ✅ Ready |
+| code-review | Systematic review | ✅ Ready |
+| api-design | RESTful/GraphQL APIs | ✅ Ready |
+| github-actions | CI/CD pipelines | ✅ Ready |
+
+### Phase 3: Extended (Roadmap)
 
 | Skill | Purpose | Priority |
 |-------|---------|----------|
-| interview-to-spec | Requirements gathering | P0 |
-| code-review | Systematic review | P0 |
-| api-design | RESTful/GraphQL APIs | P0 |
-| database-schema | Schema design | P0 |
-
-### Phase 3: Extended
-
-| Skill | Purpose | Priority |
-|-------|---------|----------|
+| documentation | Generate docs from code | P0 |
 | auth-patterns | Authentication/authorization | P1 |
 | docker-compose | Container orchestration | P1 |
-| github-actions | CI/CD pipelines | P1 |
 
 ### Priority Matrix
 
@@ -219,23 +245,27 @@ Before updating a skill:
 ## Skill Synergies
 
 ```
-pwa-ui
+interview-to-spec
     │
-    └──→ react-best-practices
+    └──→ api-design ──────────────→ postgres-fastapi
+              │                            │
+              │                            ▼
+              │                      github-actions
               │
-              ├──→ postgres-fastapi (for full-stack)
-              │
-              └──→ api-design (for backend)
-                        │
-                        ▼
-                   documentation
+              └──→ react-best-practices ──→ pwa-ui
+                            │
+                            ▼
+                       code-review
 ```
 
 When building a full-stack app:
-1. Use `pwa-ui` for mobile-first design patterns
-2. Apply `react-best-practices` for component architecture
-3. Use `postgres-fastapi` for backend data layer
-4. Reference `api-design` for endpoint design
+1. Use `interview-to-spec` to gather and document requirements
+2. Use `api-design` to design your REST/GraphQL endpoints
+3. Apply `react-best-practices` for component architecture
+4. Use `pwa-ui` for mobile-first design patterns
+5. Use `postgres-fastapi` for backend data layer
+6. Set up `github-actions` for CI/CD automation
+7. Use `code-review` before merging changes
 
 ---
 
