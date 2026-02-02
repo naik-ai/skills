@@ -4,15 +4,36 @@ A curated collection of modular instruction packages that extend Claude Code's c
 
 ## Quick Start
 
+### As a Plugin (Recommended)
+
 ```bash
-# Clone into your project
+# Add the marketplace
+/plugin marketplace add naik-ai/skills
+
+# Install the plugin
+/plugin install naik-skills
+```
+
+Skills are now available as `/naik-skills:pwa-ui`, `/naik-skills:code-review`, etc.
+
+### Global Install (All Projects)
+
+```bash
+# Clone into global Claude directory
+git clone https://github.com/naik-ai/skills ~/.claude/skills
+
+# Update anytime
+cd ~/.claude/skills && git pull
+```
+
+### Per-Project Install
+
+```bash
+# Clone into project
 git clone https://github.com/naik-ai/skills .claude/skills
 
-# Or add as submodule
+# Or as submodule (updatable)
 git submodule add https://github.com/naik-ai/skills .claude/skills
-
-# Or install specific skills
-./scripts/install.sh --skill pwa-ui
 ```
 
 ## What Are Skills?
