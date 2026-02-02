@@ -6,7 +6,7 @@
 #   curl -fsSL https://raw.githubusercontent.com/naik-ai/skills/main/scripts/install.sh | bash
 #
 #   Or locally:
-#   ./scripts/install.sh [--all | --skill SKILL_NAME | --category CATEGORY]
+#   ./scripts/install.sh [--all | --skill SKILL_NAME]
 #
 
 set -e
@@ -36,7 +36,6 @@ print_usage() {
   echo "Options:"
   echo "  --all              Install all skills"
   echo "  --skill NAME       Install specific skill (e.g., pwa-ui)"
-  echo "  --category CAT     Install all skills in category (e.g., frontend)"
   echo "  --list             List available skills"
   echo "  --help             Show this help message"
   echo ""
@@ -44,14 +43,12 @@ print_usage() {
   echo "  $0 --all"
   echo "  $0 --skill pwa-ui"
   echo "  $0 --skill react-best-practices"
-  echo "  $0 --category frontend"
   echo ""
 }
 
 # Parse arguments
 INSTALL_ALL=false
 SKILL_NAME=""
-CATEGORY=""
 LIST_ONLY=false
 
 while [[ $# -gt 0 ]]; do
@@ -62,10 +59,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --skill)
       SKILL_NAME="$2"
-      shift 2
-      ;;
-    --category)
-      CATEGORY="$2"
       shift 2
       ;;
     --list)
@@ -116,21 +109,15 @@ git clone --depth 1 --quiet "$REPO_URL" "$TEMP_DIR"
 list_skills() {
   echo "Available Skills:"
   echo "─────────────────"
-  for category_dir in "$TEMP_DIR/skills/"*/; do
-    if [ -d "$category_dir" ]; then
-      category=$(basename "$category_dir")
-      echo ""
-      echo -e "${BLUE}[$category]${NC}"
-      for skill_dir in "$category_dir"*/; do
-        if [ -f "${skill_dir}SKILL.md" ]; then
-          skill_name=$(basename "$skill_dir")
-          description=$(grep -A1 "^description:" "${skill_dir}SKILL.md" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//' | cut -c1-60)
-          echo -e "  ${GREEN}•${NC} $skill_name"
-          if [ -n "$description" ]; then
-            echo "    $description..."
-          fi
-        fi
-      done
+  echo ""
+  for skill_dir in "$TEMP_DIR/skills/"*/; do
+    if [ -f "${skill_dir}SKILL.md" ]; then
+      skill_name=$(basename "$skill_dir")
+      description=$(grep -A1 "^description:" "${skill_dir}SKILL.md" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//' | cut -c1-60)
+      echo -e "  ${GREEN}•${NC} $skill_name"
+      if [ -n "$description" ]; then
+        echo "    $description..."
+      fi
     fi
   done
   echo ""
@@ -159,12 +146,10 @@ copy_skill() {
 
 find_skill() {
   local name="$1"
-  for category_dir in "$TEMP_DIR/skills/"*/; do
-    if [ -d "$category_dir$name" ]; then
-      echo "$category_dir$name"
-      return 0
-    fi
-  done
+  if [ -d "$TEMP_DIR/skills/$name" ]; then
+    echo "$TEMP_DIR/skills/$name"
+    return 0
+  fi
   return 1
 }
 
@@ -172,13 +157,9 @@ find_skill() {
 if [ "$INSTALL_ALL" = true ]; then
   echo -e "${YELLOW}Installing all skills...${NC}"
   echo ""
-  for category_dir in "$TEMP_DIR/skills/"*/; do
-    if [ -d "$category_dir" ]; then
-      for skill_dir in "$category_dir"*/; do
-        if [ -d "$skill_dir" ]; then
-          copy_skill "$skill_dir"
-        fi
-      done
+  for skill_dir in "$TEMP_DIR/skills/"*/; do
+    if [ -d "$skill_dir" ] && [ -f "${skill_dir}SKILL.md" ]; then
+      copy_skill "$skill_dir"
     fi
   done
 elif [ -n "$SKILL_NAME" ]; then
@@ -194,31 +175,13 @@ elif [ -n "$SKILL_NAME" ]; then
     list_skills
     exit 1
   fi
-elif [ -n "$CATEGORY" ]; then
-  echo -e "${YELLOW}Installing category: $CATEGORY${NC}"
-  echo ""
-  if [ -d "$TEMP_DIR/skills/$CATEGORY" ]; then
-    for skill_dir in "$TEMP_DIR/skills/$CATEGORY/"*/; do
-      if [ -d "$skill_dir" ]; then
-        copy_skill "$skill_dir"
-      fi
-    done
-  else
-    echo -e "${RED}Category not found: $CATEGORY${NC}"
-    echo "Available categories: core, frontend, backend, media, devops, domain"
-    exit 1
-  fi
 else
   # Default: install all
   echo -e "${YELLOW}Installing all skills (use --help for options)...${NC}"
   echo ""
-  for category_dir in "$TEMP_DIR/skills/"*/; do
-    if [ -d "$category_dir" ]; then
-      for skill_dir in "$category_dir"*/; do
-        if [ -d "$skill_dir" ]; then
-          copy_skill "$skill_dir"
-        fi
-      done
+  for skill_dir in "$TEMP_DIR/skills/"*/; do
+    if [ -d "$skill_dir" ] && [ -f "${skill_dir}SKILL.md" ]; then
+      copy_skill "$skill_dir"
     fi
   done
 fi

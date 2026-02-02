@@ -30,46 +30,29 @@ Skills are modular instruction packages that transform Claude from a general-pur
 
 ```
 skills/
-├── skills/                    # All skills live here
-│   ├── core/                  # Foundational skills
-│   ├── frontend/              # Frontend-specific skills
-│   ├── backend/               # Backend-specific skills
-│   ├── media/                 # Media creation skills
-│   ├── devops/                # DevOps skills
-│   └── domain/                # Domain-specific skills
-├── commands/                  # Reusable slash commands
+├── skills/                    # All skills (flat structure)
+│   ├── api-design/
+│   ├── code-review/
+│   ├── github-actions/
+│   ├── interview-to-spec/
+│   ├── postgres-fastapi/
+│   ├── pwa-ui/
+│   └── react-best-practices/
 ├── templates/                 # Starter templates
 └── scripts/                   # Utility scripts
 ```
 
 ## Available Skills
 
-### Core Skills
-
 | Skill | Description | Status |
 |-------|-------------|--------|
-| [interview-to-spec](skills/core/interview-to-spec/) | Transform vague ideas into comprehensive specs through systematic deep questioning | Ready |
-| [code-review](skills/core/code-review/) | Systematic code review with actionable feedback, severity levels, and fix suggestions | Ready |
-
-### Frontend Skills
-
-| Skill | Description | Status |
-|-------|-------------|--------|
-| [pwa-ui](skills/frontend/pwa-ui/) | Apple-inspired PWA UI/UX patterns for React/Next.js with animations, typography, and design tokens | Ready |
-| [react-best-practices](skills/frontend/react-best-practices/) | Production React patterns from Vercel including Server Components, data fetching, and performance | Ready |
-
-### Backend Skills
-
-| Skill | Description | Status |
-|-------|-------------|--------|
-| [postgres-fastapi](skills/backend/postgres-fastapi/) | PostgreSQL patterns for FastAPI/Alembic with migrations, queries, and Supabase integration | Ready |
-| [api-design](skills/backend/api-design/) | RESTful API design with OpenAPI specs, consistent patterns, and type definitions | Ready |
-
-### DevOps Skills
-
-| Skill | Description | Status |
-|-------|-------------|--------|
-| [github-actions](skills/devops/github-actions/) | CI/CD pipelines with GitHub Actions for testing, building, and deploying applications | Ready |
+| [api-design](skills/api-design/) | RESTful API design with OpenAPI specs, consistent patterns, and type definitions | Ready |
+| [code-review](skills/code-review/) | Systematic code review with actionable feedback, severity levels, and fix suggestions | Ready |
+| [github-actions](skills/github-actions/) | CI/CD pipelines with GitHub Actions for testing, building, and deploying applications | Ready |
+| [interview-to-spec](skills/interview-to-spec/) | Transform vague ideas into comprehensive specs through systematic deep questioning | Ready |
+| [postgres-fastapi](skills/postgres-fastapi/) | PostgreSQL patterns for FastAPI/Alembic with migrations, queries, and Supabase integration | Ready |
+| [pwa-ui](skills/pwa-ui/) | Apple-inspired PWA UI/UX patterns for React/Next.js with animations, typography, and design tokens | Ready |
+| [react-best-practices](skills/react-best-practices/) | Production React patterns from Vercel including Server Components, data fetching, and performance | Ready |
 
 ### Roadmap
 
@@ -277,7 +260,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding or modifying ski
 
 ```bash
 # Copy template
-cp -r templates/skill-template skills/[category]/[skill-name]
+cp -r templates/skill-template skills/[skill-name]
 
 # Edit SKILL.md
 # Test skill
@@ -301,7 +284,7 @@ cp -r templates/skill-template skills/[category]/[skill-name]
 ./scripts/install.sh --skill pwa-ui
 
 # Validate a skill
-./scripts/validate.sh skills/frontend/pwa-ui
+./scripts/validate.sh skills/pwa-ui
 ```
 
 ---

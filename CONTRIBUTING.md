@@ -8,9 +8,7 @@ Guidelines for adding, modifying, and maintaining skills in this repository.
 
 ```bash
 # Copy template
-cp -r templates/skill-template skills/[category]/[skill-name]
-
-# Categories: core, frontend, backend, media, devops, domain
+cp -r templates/skill-template skills/[skill-name]
 ```
 
 ### 2. Structure Your Skill
@@ -121,7 +119,7 @@ Before submitting:
 
 ```bash
 # 1. Validate structure
-./scripts/validate.sh skills/[category]/[skill-name]
+./scripts/validate.sh skills/[skill-name]
 
 # 2. Test in isolation
 # Add only this skill to a test project
@@ -150,7 +148,7 @@ Before submitting:
 
 1. Create feature branch: `git checkout -b add-skill-name`
 2. Add skill following guidelines
-3. Run validation: `./scripts/validate.sh skills/[category]/[skill-name]`
+3. Run validation: `./scripts/validate.sh skills/[skill-name]`
 4. Update README.md skill index if needed
 5. Submit PR with description of:
    - What the skill does

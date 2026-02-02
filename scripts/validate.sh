@@ -5,11 +5,9 @@
 # Validates skill structure and content requirements
 #
 # Usage:
-#   ./scripts/validate.sh skills/frontend/pwa-ui
+#   ./scripts/validate.sh skills/pwa-ui
 #   ./scripts/validate.sh --all
 #
-
-set -e
 
 # Colors
 RED='\033[0;31m'
@@ -31,12 +29,12 @@ print_header() {
 
 error() {
   echo -e "  ${RED}✗${NC} ERROR: $1"
-  ((ERRORS++))
+  ERRORS=$((ERRORS + 1))
 }
 
 warning() {
   echo -e "  ${YELLOW}!${NC} WARNING: $1"
-  ((WARNINGS++))
+  WARNINGS=$((WARNINGS + 1))
 }
 
 success() {
@@ -181,13 +179,9 @@ print_header
 if [ "$1" = "--all" ]; then
   echo "Validating all skills..."
 
-  for category_dir in skills/*/; do
-    if [ -d "$category_dir" ]; then
-      for skill_dir in "$category_dir"*/; do
-        if [ -d "$skill_dir" ]; then
-          validate_skill "$skill_dir"
-        fi
-      done
+  for skill_dir in skills/*/; do
+    if [ -d "$skill_dir" ] && [ -f "${skill_dir}SKILL.md" ]; then
+      validate_skill "$skill_dir"
     fi
   done
 elif [ -n "$1" ]; then
@@ -201,7 +195,7 @@ else
   echo "Usage: $0 <skill-path> | --all"
   echo ""
   echo "Examples:"
-  echo "  $0 skills/frontend/pwa-ui"
+  echo "  $0 skills/pwa-ui"
   echo "  $0 --all"
   exit 1
 fi
